@@ -317,7 +317,7 @@ routes.post('/carteira/create', async (req, res) => {
         const page = await browser.newPage();
         await page.setDefaultTimeout(10000000); 
         await page.setViewport({width: 1210, height: 395}) 
-        await page.goto(`http://localhost:3000/preview/${membros[index]}`);
+        await page.goto(`${process.env.URL_FRONTEND}/preview/${membros[index]}`);
         await page.waitForSelector('#card', {
             timeout: 1000000
         });

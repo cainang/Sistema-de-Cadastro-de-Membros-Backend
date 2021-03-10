@@ -326,10 +326,10 @@ routes.post('/carteira/create', async (req, res) => {
         await page.waitForSelector('#nome2', {
             timeout: 1000000
         });
-        await page.screenshot({path: `./temp/carteira-${membros[index]}-${nomes[nomeIndex]}.png`, omitBackground: true});
+        var image = await page.screenshot({omitBackground: true});
         await page.close(); 
         
-        await bucket.upload(`./temp/carteira-${membros[index]}-${nomes[nomeIndex]}.png`, { 
+        await bucket.upload(image, { 
             destination: `carteiras/carteira-${membros[index]}-${nomes[nomeIndex]}.png`,
           });
         arquivos.push(`carteira-${membros[index]}-${nomes[nomeIndex]}.png`);

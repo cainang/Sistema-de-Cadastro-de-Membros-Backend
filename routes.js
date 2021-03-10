@@ -310,7 +310,9 @@ routes.post('/carteira/create', async (req, res) => {
         nomes.push(res.nome);
     });
 
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({
+            args: ['--no-sandbox']
+          });
 
     for (let index = 0; index < membros.length; index++) {
         let nomeIndex = membros[index] - 1;

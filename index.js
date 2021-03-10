@@ -9,7 +9,6 @@ const app = express();
 app.use(cors());
 
 app.use(express.json());
-console.log('oi')
 app.use(routes);
 
 app.listen(3333);

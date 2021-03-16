@@ -311,7 +311,8 @@ routes.post('/carteira/create', async (req, res) => {
     });
 
         const browser = await puppeteer.launch({
-            args: ['--no-sandbox']
+            args: ['--no-sandbox'],
+            ignoreDefaultArgs: ['--disable-extensions']
           });
 
     for (let index = 0; index < membros.length; index++) {

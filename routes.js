@@ -323,7 +323,7 @@ routes.post('/carteira/create', async (req, res) => {
         const page = await browser.newPage();
         await page.setDefaultTimeout(10000000); 
         await page.setViewport({width: 1210, height: 395}) 
-        await page.goto(`https://www.google.com.br`);
+        await page.goto(`${process.env.URL_FRONTEND}/preview/${membros[index]}`);
         
         var image = await page.screenshot({omitBackground: true});
         console.log(image);

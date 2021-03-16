@@ -4,6 +4,8 @@ var admin = require("firebase-admin");
 const firebase = require("firebase-admin");
 require('./firebase/base')
 const {Storage} = require('@google-cloud/storage');
+var fs = require('fs');
+const os = require('os');
 
 // Creates a client
 const storage = new Storage();
@@ -321,19 +323,25 @@ routes.post('/carteira/create', async (req, res) => {
         const page = await browser.newPage();
         await page.setDefaultTimeout(10000000); 
         await page.setViewport({width: 1210, height: 395}) 
-        await page.goto(`${process.env.URL_FRONTEND}/preview/${membros[index]}`);
-        await page.waitForSelector('#card', {
-            timeout: 1000000
-        });
-        await page.waitForSelector('#nome2', {
-            timeout: 1000000
-        });
-        var image = await page.screenshot({omitBackground: true});
-        await page.close(); 
+        await page.goto(`https://www.google.com.br`);
         
-        await bucket.upload(image, { 
+        var image = await page.screenshot({omitBackground: true});
+        console.log(image);
+        await page.close(); 
+        fs.writeFile(`${os.tmpdir()}/carteira-${membros[index]}-${nomes[nomeIndex]}.png`, image, function(err) {
+            if (err) throw err;
+        });
+        await bucket.upload(`${os.tmpdir()}/carteira-${membros[index]}-${nomes[nomeIndex]}.png`, { 
             destination: `carteiras/carteira-${membros[index]}-${nomes[nomeIndex]}.png`,
           });
+          fs.unlink(`${os.tmpdir()}/carteira-${membros[index]}-${nomes[nomeIndex]}.png`, (err) => {
+            if (err) {
+              console.error(err)
+              return
+            }
+          
+            //file removed
+          })
         arquivos.push(`carteira-${membros[index]}-${nomes[nomeIndex]}.png`);
     }
     await browser.close();

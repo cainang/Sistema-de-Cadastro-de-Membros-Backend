@@ -324,9 +324,13 @@ routes.post('/carteira/create', async (req, res) => {
         await page.setDefaultTimeout(10000000); 
         await page.setViewport({width: 1210, height: 395}) 
         await page.goto(`${process.env.URL_FRONTEND}/preview/${membros[index]}`);
-        
+        await page.waitForSelector('#card', {
+            timeout: 1000000
+        });
+        await page.waitForSelector('#nome2', {
+            timeout: 1000000
+        });
         var image = await page.screenshot({omitBackground: true});
-        console.log(image);
         await page.close(); 
         fs.writeFile(`${os.tmpdir()}/carteira-${membros[index]}-${nomes[nomeIndex]}.png`, image, function(err) {
             if (err) throw err;

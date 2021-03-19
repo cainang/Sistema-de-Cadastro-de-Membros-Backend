@@ -320,6 +320,10 @@ routes.post('/carteira/create', async (req, res) => {
 
     for (let index = 0; index < membros.length; index++) {
         let nomeIndex = membros[index] - 1;
+        console.log(`nomeIndex: ${nomeIndex}`);
+        console.log(`membro[index]: ${membros[index]}`);
+        console.log(`nomes[nomeIndex]: ${nomes[nomeIndex]}`);
+        
         const page = await browser.newPage();
         await page.setDefaultTimeout(10000000); 
         await page.setViewport({width: 1210, height: 395}) 
